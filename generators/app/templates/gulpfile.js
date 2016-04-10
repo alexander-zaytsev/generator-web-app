@@ -35,7 +35,7 @@ gulp.task('lint', function () {
 gulp.task('babel-compile', function () {
   return gulp.src('app/scripts/**/*.js')
     .pipe(babel({
-      presets: ['es2015', <% if (includeReact) { %> 'react' <% } %>]
+      presets: ['es2015'<% if (includeReact) { %>, 'react' <% } %>]
     }))
     .pipe(gulp.dest('dist'));
 });
