@@ -1,21 +1,21 @@
-var gulp = require('gulp');
-var jade = require('gulp-jade');
-var uglify = require('gulp-uglify');
-var concat = require('gulp-concat');
-var eslint = require('gulp-eslint');
-var less = require('gulp-less');
-var cleanCSS = require('gulp-clean-css');
-var prefix = require('gulp-autoprefixer');
-var imageminPngquant = require('imagemin-pngquant');
-var imageminJpegtran = require('imagemin-jpegtran');
-var svgmin = require('gulp-svgmin');
-var del = require('del');
-var bSync = require('browser-sync');
-var mainBowerFiles = require('main-bower-files');
-var babel = require('gulp-babel');
+const gulp = require('gulp');
+const jade = require('gulp-jade');
+const uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
+const eslint = require('gulp-eslint');
+const less = require('gulp-less');
+const cleanCSS = require('gulp-clean-css');
+const prefix = require('gulp-autoprefixer');
+const imageminPngquant = require('imagemin-pngquant');
+const imageminJpegtran = require('imagemin-jpegtran');
+const svgmin = require('gulp-svgmin');
+const del = require('del');
+const bSync = require('browser-sync');
+const mainBowerFiles = require('main-bower-files');
+const babel = require('gulp-babel');
 
-gulp.task('templates', function() {
-    var YOUR_LOCALS = {};
+gulp.task('templates', () => {
+    const YOUR_LOCALS = {};
     return gulp.src('app/*.jade')
         .pipe(jade({
             locals: YOUR_LOCALS
@@ -23,7 +23,7 @@ gulp.task('templates', function() {
         .pipe(gulp.dest('dist'))
 });
 
-gulp.task('lint', function () {
+gulp.task('lint', () => {
   return gulp.src([
       'app/scripts/**/*.js'
     ])
@@ -32,7 +32,7 @@ gulp.task('lint', function () {
     .pipe(eslint.failAfterError());
 });
 
-gulp.task('babel-compile', function () {
+gulp.task('babel-compile', () => {
   return gulp.src('app/scripts/**/*.js')
     .pipe(babel({
       presets: ['es2015'<% if (includeReact) { %>, 'react' <% } %>]
@@ -42,7 +42,7 @@ gulp.task('babel-compile', function () {
 
 gulp.task('scripts',
   gulp.series('lint', 'babel-compile', function scriptsInternal() {
-    var glob = mainBowerFiles(/.*\.js/);
+    const glob = mainBowerFiles(/.*\.js/);
     glob.push('app/scripts/**/*.js');
     return gulp.src(glob)
       .pipe(concat('main.min.js'))
@@ -50,7 +50,7 @@ gulp.task('scripts',
       .pipe(gulp.dest('dist/scripts'));
 }));
 
-gulp.task('styles', function () {
+gulp.task('styles', () => {
   return gulp.src('app/styles/main.less')
     .pipe(less())
     .pipe(cleanCSS())
@@ -58,19 +58,19 @@ gulp.task('styles', function () {
     .pipe(gulp.dest('dist/styles'));
 });
 
-gulp.task('pngMin', function () {
+gulp.task('pngMin', () => {
   return gulp.src('app/images/*.png')
     .pipe(imageminPngquant({quality: '65-80', speed: 4})())
     .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('jpegMin', function () {
+gulp.task('jpegMin', () => {
   return gulp.src('app/images/*.jpg')
     .pipe(imageminJpegtran({progressive: true})())
     .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('svgMin', function () {
+gulp.task('svgMin', () => {
   return gulp.src('app/images/*.svg')
     .pipe(svgmin())
     .pipe(gulp.dest('dist/images'));
@@ -78,11 +78,11 @@ gulp.task('svgMin', function () {
 
 gulp.task('images', gulp.parallel('pngMin', 'jpegMin', 'svgMin'));
 
-gulp.task('clean', function () {
+gulp.task('clean', () => {
   return del(['dist']);
 });
 
-gulp.task('server', function (done) {
+gulp.task('server', (done) => {
   bSync({
     server: {
       baseDir: ['dist']
