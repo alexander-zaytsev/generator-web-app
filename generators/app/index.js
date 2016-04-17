@@ -1,13 +1,13 @@
-/*jslint node: true */
 'use strict';
-var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
+const yeoman = require('yeoman-generator');
+const chalk = require('chalk');
+const yosay = require('yosay');
+const path = require('path');
 
 module.exports = yeoman.Base.extend({
 
-  prompting: function () {
-    var done = this.async();
+  prompting: () => {
+    const done = this.async();
 
     // Have Yeoman greet the user.
     this.log(yosay(
@@ -30,50 +30,57 @@ module.exports = yeoman.Base.extend({
       default: true
     }];
 
-    this.prompt(prompts, function (props) {
+    this.prompt(prompts, (props) => {
       this.props = props;
       // To access props later use this.props.someAnswer;
 
       done();
-    }.bind(this));
+    });
   },
 
   writing: {
-    fixed: function () {
-      var fixedFilePaths = [
+    fixed: () => {
+      const fixedFilePaths = [
         'main.js', 'colorScheme.less',
         'global.less',  'interface.less', 'layout.less',
         'type.less', 'variables.less', 'README.md', '.editorconfig',
         '.gitignore', 'travis.yml'
       ];
 
-      fixedFilePaths.forEach(function (fromFilePath) {
-        var toFilePath = fromFilePath;
+      fixedFilePaths.forEach( (fromFilePath) => {
+        let toFilePath =
+          path.join(this.props.projectName, fromFilePath);
         if (/.*\.less$/.test(fromFilePath)) {
-          toFilePath = 'app/styles/modules/' + fromFilePath;
+          toFilePath = path.join(this.props.projectName + 'app',
+            'styles', 'modules', fromFilePath);
         } else if (fromFilePath === 'main.js') {
-          toFilePath = 'app/scripts/' + fromFilePath;
+          toFilePath = path.join(this.props.projectName + 'app',
+            'scripts', fromFilePath);
         } else if (fromFilePath === 'package.json') {
-          toFilePath = 'package.json';
+          toFilePath = path.join(this.props.projectName, fromFilePath);
         }
 
         this.fs.copy(
           this.templatePath(fromFilePath),
           this.destinationPath(toFilePath)
         );
-      }.bind(this));
+      });
     },
 
-    flexible: function () {
-      var flexibleFilePaths = [
-        'index.jade', 'bower.json', 'package.json', 'main.less', 'gulpfile.js'
+    flexible: () => {
+      const flexibleFilePaths = [
+        'index.jade', 'bower.json', 'package.json', 'main.less',
+        'gulpfile.js'
       ];
       flexibleFilePaths.forEach(function (fromFilePath) {
-        var toFilePath = fromFilePath;
-        if (fromFilePath === 'index.jade') {
-          toFilePath = 'app/' + fromFilePath;
+        let toFilePath =
+          path.join(this.props.projectName, fromFilePath);
+        if (fromFilePath === 'index.pug') {
+          toFilePath = path.join(this.props.projectName, 'app',
+            fromFilePath)
         } else if (fromFilePath === 'main.less') {
-          toFilePath = 'app/styles/' + fromFilePath;
+          toFilePath = path.join(this.props.projectName, 'app',
+            'styles', fromFilePath);
         }
 
         this.fs.copyTpl(
@@ -84,28 +91,31 @@ module.exports = yeoman.Base.extend({
       }.bind(this));
     },
 
-    optional: function () {
-      var optionalFileNames = [
+    optional: () => {
+      const optionalFileNames = [
         'normalize.less'
       ];
 
-      optionalFileNames.forEach(function (fromFilePath) {
-        var toFilePath = fromFilePath;
+      optionalFileNames.forEach((fromFilePath) => {
+        let toFilePath =
+          path.join(this.props.projectName, fromFilePath);
         if (fromFilePath === 'normalize.less' &&
             this.props.includeNormalize === true ) {
 
-          toFilePath = 'app/styles/vendor/' + fromFilePath;
+          toFilePath =
+            path.join(this.props.projectName, 'app', 'styles', 'vendor',
+              'fromFilePath');
           this.fs.copy(
             this.templatePath(fromFilePath),
             this.destinationPath(toFilePath)
           );
 
         }
-      }.bind(this));
+      };
     }
   },
 
-  install: function () {
+  install: () => {
     this.installDependencies();
   }
 });
