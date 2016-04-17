@@ -19,7 +19,7 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.2.2" <% if (includeReact) { %>,
-    "react": "^0.14.8" <% } %>
+    "jquery": "~2.2.3" <% if (includeReact) { %>,
+    "react": "^15.0.1" <% } %>
   }
 }
