@@ -52,10 +52,11 @@ module.exports = yeoman.Base.extend({
         let toFilePath =
           path.join(this.props.projectName, fromFilePath);
         if (/.*\.less$/.test(fromFilePath)) {
-          toFilePath = path.join(this.props.projectName + 'app',
+          toFilePath = path.join(this.props.projectName, 'app',
             'styles', 'modules', fromFilePath);
+          console.log(toFilePath);
         } else if (fromFilePath === 'main.js') {
-          toFilePath = path.join(this.props.projectName + 'app',
+          toFilePath = path.join(this.props.projectName, 'app',
             'scripts', fromFilePath);
         }
 
@@ -75,7 +76,7 @@ module.exports = yeoman.Base.extend({
         let toFilePath =
           path.join(this.props.projectName, fromFilePath);
         if (fromFilePath === 'index.pug') {
-          toFilePath = path.join(this.props.projectName, 'app',
+          toFilePath = path.join(this.props.projectName, 'app', 'pages',
             fromFilePath)
         } else if (fromFilePath === 'main.less') {
           toFilePath = path.join(this.props.projectName, 'app',
@@ -102,7 +103,7 @@ module.exports = yeoman.Base.extend({
           this.props.includeNormalize === true ) {
 
           toFilePath = path.join(this.props.projectName, 'app',
-            'styles', 'vendor', 'fromFilePath');
+            'styles', 'vendor', fromFilePath);
           this.fs.copy(
             this.templatePath(fromFilePath),
             this.destinationPath(toFilePath)

@@ -16,7 +16,7 @@ const babel = require('gulp-babel');
 
 gulp.task('templates', () => {
     const YOUR_LOCALS = {};
-    return gulp.src('app/*.jade')
+    return gulp.src('app/pages/*.pug')
         .pipe(pug({
             locals: YOUR_LOCALS
         }))
