@@ -1,5 +1,5 @@
 const gulp = require('gulp');
-const jade = require('gulp-jade');
+const pug = require('gulp-pug');
 const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const eslint = require('gulp-eslint');
@@ -17,7 +17,7 @@ const babel = require('gulp-babel');
 gulp.task('templates', () => {
     const YOUR_LOCALS = {};
     return gulp.src('app/*.jade')
-        .pipe(jade({
+        .pipe(pug({
             locals: YOUR_LOCALS
         }))
         .pipe(gulp.dest('dist'))
