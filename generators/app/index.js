@@ -43,7 +43,8 @@ module.exports = yeoman.Base.extend({
       var fixedFilePaths = [
         'main.js', 'colorScheme.less',
         'global.less',  'interface.less', 'layout.less',
-        'type.less', 'variables.less', 'README.md'
+        'type.less', 'variables.less', 'README.md', '.editorconfig',
+        '.gitignore', 'travis.yml'
       ];
 
       fixedFilePaths.forEach(function (fromFilePath) {
